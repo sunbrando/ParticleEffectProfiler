@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-public class GetParticleEffectData : MonoBehaviour {
+public class GetParticleEffectData {
 
     static int m_MaxDrawCall = 0;
 
@@ -129,9 +130,9 @@ public class GetParticleEffectData : MonoBehaviour {
 
         if (particleSystem.forceOverLifetime.enabled)
         {
-            if (particleSystem.forceOverLifetime.x.curveMultiplier != 0
-                || particleSystem.forceOverLifetime.y.curveMultiplier != 0
-                || particleSystem.forceOverLifetime.z.curveMultiplier != 0
+            if (GetIsRandomized(particleSystem.forceOverLifetime.x)
+                || GetIsRandomized(particleSystem.forceOverLifetime.y)
+                || GetIsRandomized(particleSystem.forceOverLifetime.z)
                 || particleSystem.forceOverLifetime.randomized)
             {
                 text += "\nForce Over Lifetime使用了Current(非线性运算)";
@@ -139,8 +140,7 @@ public class GetParticleEffectData : MonoBehaviour {
         } 
         if (particleSystem.inheritVelocity.enabled)
         {
-            if (particleSystem.inheritVelocity.curveMultiplier != 0
-                || particleSystem.inheritVelocity.curve.curveMultiplier !=0)
+            if (GetIsRandomized(particleSystem.inheritVelocity.curve))
             {
                 text += "\nInherit Velocity使用了Current(非线性运算)";
             }
@@ -155,9 +155,9 @@ public class GetParticleEffectData : MonoBehaviour {
         }
         if (particleSystem.rotationOverLifetime.enabled)
         {
-            if (particleSystem.rotationOverLifetime.x.curveMultiplier != 0
-                || particleSystem.rotationOverLifetime.y.curveMultiplier != 0
-                || particleSystem.rotationOverLifetime.z.curveMultiplier != 0)
+            if (GetIsRandomized(particleSystem.rotationOverLifetime.x)
+                || GetIsRandomized(particleSystem.rotationOverLifetime.y)
+                || GetIsRandomized(particleSystem.rotationOverLifetime.z))
             {
                 text += "\nRotation Over Lifetime使用了Current(非线性运算)";
             }
@@ -200,9 +200,9 @@ public class GetParticleEffectData : MonoBehaviour {
         }
         if (particleSystem.velocityOverLifetime.enabled)
         {
-            if (particleSystem.velocityOverLifetime.x.curveMultiplier != 0
-                || particleSystem.velocityOverLifetime.y.curveMultiplier != 0
-                || particleSystem.velocityOverLifetime.z.curveMultiplier != 0)
+            if (GetIsRandomized(particleSystem.velocityOverLifetime.x)
+                || GetIsRandomized(particleSystem.velocityOverLifetime.y)
+                || GetIsRandomized(particleSystem.velocityOverLifetime.z))
             {
                 text += "\nVelocity Over Lifetime使用了Current(非线性运算)";
             }
@@ -220,6 +220,40 @@ public class GetParticleEffectData : MonoBehaviour {
             text += "\nGravityModifier 不等于0";
         }
         return text;
+    }
+
+    static bool GetIsRandomized(ParticleSystem.MinMaxCurve minMaxCurve)
+    {
+        bool flag = AnimationCurveSupportsProcedural(minMaxCurve.curveMax);
+
+        bool result;
+        if (minMaxCurve.mode != ParticleSystemCurveMode.TwoCurves && minMaxCurve.mode != ParticleSystemCurveMode.TwoConstants)
+        {
+            result = flag;
+        }
+        else
+        {
+            bool flag2 = AnimationCurveSupportsProcedural(minMaxCurve.curveMin);
+            result = (flag && flag2);
+        }
+
+        return flag;
+    }
+
+    static bool AnimationCurveSupportsProcedural(AnimationCurve curve)
+    {
+        //switch (AnimationUtility.IsValidPolynomialCurve(curve)) //保护级别，无法访问，靠
+        //{
+        //    case AnimationUtility.PolynomialValid.Valid:
+        //        return true;
+        //    case AnimationUtility.PolynomialValid.InvalidPreWrapMode:
+        //        break;
+        //    case AnimationUtility.PolynomialValid.InvalidPostWrapMode:
+        //        break;
+        //    case AnimationUtility.PolynomialValid.TooManySegments:
+        //        break;
+        //}
+        return false; //只能默认返回false了
     }
 }
 
