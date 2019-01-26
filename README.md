@@ -26,7 +26,7 @@ ParticleEffectScript脚本：
 ![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E5%9B%BE%E7%89%8720190126171957.png)  
 由于特效的制作过程中，会使用一些非线性的运算，使得Unity无法实时获取到粒子的位置，会导致超出摄像机的粒子无法进行自动裁剪，所以在面板统一显示方便查看。  
 ![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126174337.png)  
-但这里的还不够全面，有部分无法自动裁剪的没法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，根据UpdateCullingSupportedString这个函数进行补充。  
+但这里的还不够全面，有部分无法自动裁剪的没法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，搜索UpdateCullingSupportedString这个函数进行了解。  
 
 摄像机：
 ---
