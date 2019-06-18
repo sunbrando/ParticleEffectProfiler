@@ -57,7 +57,8 @@ public class GetParticleEffectData {
     public static int GetOnlyParticleEffecDrawCall()
     {
         //如果场景不只有特效这个值就不一定对
-        int drawCall = UnityEditor.UnityStats.batches;
+        //批处理的数值比正常值翻倍了？
+        int drawCall = UnityEditor.UnityStats.batches / 2;
         if (m_MaxDrawCall<drawCall)
         {
             m_MaxDrawCall = drawCall;
