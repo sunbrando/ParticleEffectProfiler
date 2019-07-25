@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleEffectCurve : MonoBehaviour {
+public class ParticleEffectCurve {
 
     public AnimationCurve animationCurve = new AnimationCurve();
 
