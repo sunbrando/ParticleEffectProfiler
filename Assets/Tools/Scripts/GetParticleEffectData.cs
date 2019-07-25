@@ -22,11 +22,24 @@ public class GetParticleEffectData {
                 Texture texture = item.sharedMaterial.mainTexture;
                 if (texture)
                 {
-                    sumSize = sumSize + Profiler.GetRuntimeMemorySizeLong(texture);
+                    sumSize = sumSize + GetStorageMemorySize(texture);
                 }
             }
         }
         return EditorUtility.FormatBytes(sumSize);
+    }
+
+    private static int GetStorageMemorySize(Texture texture)
+    {
+        return (int)InvokeInternalAPI("UnityEditor.TextureUtil", "GetStorageMemorySize", texture);
+    }
+
+    private static object InvokeInternalAPI(string type, string method, params object[] parameters)
+    {
+        var assembly = typeof(AssetDatabase).Assembly;
+        var custom = assembly.GetType(type);
+        var methodInfo = custom.GetMethod(method, BindingFlags.Public | BindingFlags.Static);
+        return methodInfo != null ? methodInfo.Invoke(null, parameters) : 0;
     }
 
     //获取物体对应的组件，包括子对象
@@ -45,7 +58,7 @@ public class GetParticleEffectData {
                     list.Add((T)component);
                 }
             }
-        } 
+        }
         return list;
     }
 
