@@ -170,7 +170,9 @@ public class GetParticleEffectData {
             {
                 case ParticleSystemShapeType.Cone:
                 case ParticleSystemShapeType.ConeVolume:
+#if UNITY_2017_1_OR_NEWER
                 case ParticleSystemShapeType.Donut:
+#endif
                 case ParticleSystemShapeType.Circle:
                     if(particleSystem.shape.arcMode != ParticleSystemShapeMultiModeValue.Random)
                     {
