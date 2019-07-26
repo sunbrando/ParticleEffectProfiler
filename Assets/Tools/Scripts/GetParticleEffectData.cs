@@ -68,6 +68,12 @@ public class GetParticleEffectData {
         return string.Format("贴图所占用的内存：{0}   建议：<100 KB", GetRuntimeMemorySize(go));
     }
 
+    public static string GetParticleSystemCount(GameObject go)
+    {
+        var particleSystems = go.GetComponentsInChildren<ParticleSystem>(true);
+        return string.Format("特效中所有粒子系统组件数量：{0}     建议：<5", particleSystems.Length);
+    }
+
     public static int GetOnlyParticleEffecDrawCall()
     {
         //如果场景不只有特效这个值就不一定对

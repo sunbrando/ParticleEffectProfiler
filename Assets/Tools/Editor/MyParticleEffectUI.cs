@@ -13,15 +13,17 @@ public class MyParticleEffectUI : Editor {
     {
         ParticleEffectScript particleEffectScript = (ParticleEffectScript)target;
 
-        m_Label[0] = GetParticleEffectData.GetGetRuntimeMemorySizeStr(particleEffectScript.gameObject);
+        int index = 0;
+        m_Label[index] = GetParticleEffectData.GetGetRuntimeMemorySizeStr(particleEffectScript.gameObject);
+        m_Label[++index] = GetParticleEffectData.GetParticleSystemCount(particleEffectScript.gameObject);
 
         if (EditorApplication.isPlaying)
         {
-            m_Label[1] = GetParticleEffectData.GetOnlyParticleEffecDrawCallStr();
-            m_Label[2] = GetParticleEffectData.GetParticleCountStr(particleEffectScript);
-            m_Label[3] = GetParticleEffectData.GetPixDrawAverageStr(particleEffectScript);
-            m_Label[4] = GetParticleEffectData.GetPixActualDrawAverageStr(particleEffectScript);
-            m_Label[5] = GetParticleEffectData.GetPixRateStr(particleEffectScript);
+            m_Label[++index] = GetParticleEffectData.GetOnlyParticleEffecDrawCallStr();
+            m_Label[++index] = GetParticleEffectData.GetParticleCountStr(particleEffectScript);
+            m_Label[++index] = GetParticleEffectData.GetPixDrawAverageStr(particleEffectScript);
+            m_Label[++index] = GetParticleEffectData.GetPixActualDrawAverageStr(particleEffectScript);
+            m_Label[++index] = GetParticleEffectData.GetPixRateStr(particleEffectScript);
         }
 
         ShowUI(); 
