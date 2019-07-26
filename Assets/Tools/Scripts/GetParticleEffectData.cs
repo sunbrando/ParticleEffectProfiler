@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -272,4 +273,4 @@ public class GetParticleEffectData {
         return false; //只能默认返回false了
     }
 }
-
+#endif
