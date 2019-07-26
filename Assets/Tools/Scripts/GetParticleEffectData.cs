@@ -12,6 +12,7 @@ public class GetParticleEffectData {
 
     public static string GetRuntimeMemorySize(GameObject go)
     {
+        var textures = new List<Texture>();
         long sumSize = 0;
 
         List<ParticleSystemRenderer> meshRendererlist = GetComponentByType<ParticleSystemRenderer>(go);
@@ -21,8 +22,9 @@ public class GetParticleEffectData {
             if (item.sharedMaterial)
             {
                 Texture texture = item.sharedMaterial.mainTexture;
-                if (texture)
+                if (texture && !textures.Contains(texture))
                 {
+                    textures.Add(texture);
                     sumSize = sumSize + GetStorageMemorySize(texture);
                 }
             }
