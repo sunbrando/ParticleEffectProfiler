@@ -253,7 +253,7 @@ public class GetParticleEffectData {
             result = (flag && flag2);
         }
 
-        return flag;
+        return result;
     }
 
     static bool AnimationCurveSupportsProcedural(AnimationCurve curve)
