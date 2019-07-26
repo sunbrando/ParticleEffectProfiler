@@ -8,7 +8,7 @@ public class EffectEvla {
     SingleEffectEvla singleEffectEvla;
     public float time = 0;
 
-    public void Init(Camera camera)
+    public virtual void Init(Camera camera)
     {
         SetCamera(camera);
     }

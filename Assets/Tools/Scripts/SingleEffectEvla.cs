@@ -82,8 +82,6 @@ public class SingleEffectEvla {
         }  
     }
 
-    bool isPlay = false;
-
     public void Simsimulate(float time)
     {
         if (!_effectObj.activeSelf)

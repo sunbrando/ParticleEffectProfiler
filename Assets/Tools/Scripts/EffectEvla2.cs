@@ -39,7 +39,7 @@ public class EffectEvla2 : EffectEvla
         this.Init(Camera.main);
     }
 
-    public void Init(Camera camera)
+    public override void Init(Camera camera)
     {
         CSVEffectEvlaHelper.GetInstance();
 
@@ -95,7 +95,7 @@ public class EffectEvla2 : EffectEvla
         }
         singleEffectEvlas = null;
 
-        CSVEffectEvlaHelper cSVEffectEvlaHelper = CSVEffectEvlaHelper.GetInstance();
+        CSVEffectEvlaHelper.GetInstance();
         CSVEffectEvlaHelper.DestroyInstance();
     }
     

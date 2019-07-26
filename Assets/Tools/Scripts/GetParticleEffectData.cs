@@ -227,11 +227,11 @@ public class GetParticleEffectData {
         {
             text += "\n勾选了 Limit Velocity Over Lifetime";
         }
-        if (particleSystem.simulationSpace != 0)
+        if (particleSystem.main.simulationSpace != 0)
         {
             text += "\nSimulationSpace 不等于0";
         }
-        if (particleSystem.gravityModifier != 0)
+        if (particleSystem.main.gravityModifierMultiplier != 0)
         {
             text += "\nGravityModifier 不等于0";
         }
