@@ -10,9 +10,10 @@ public class GetParticleEffectData {
 
     static int m_MaxDrawCall = 0;
 
-    public static string GetRuntimeMemorySize(GameObject go)
+    public static string GetRuntimeMemorySize(GameObject go, out int textureCount)
     {
         var textures = new List<Texture>();
+        textureCount = 0;
         long sumSize = 0;
 
         List<ParticleSystemRenderer> meshRendererlist = GetComponentByType<ParticleSystemRenderer>(go);
@@ -25,6 +26,7 @@ public class GetParticleEffectData {
                 if (texture && !textures.Contains(texture))
                 {
                     textures.Add(texture);
+                    textureCount++;
                     sumSize = sumSize + GetStorageMemorySize(texture);
                 }
             }
@@ -67,7 +69,9 @@ public class GetParticleEffectData {
 
     public static string GetGetRuntimeMemorySizeStr(GameObject go)
     {
-        return string.Format("贴图所占用的内存：{0}   建议：<100 KB", GetRuntimeMemorySize(go));
+        int textureCount;
+        string memorySize = GetRuntimeMemorySize(go, out textureCount);
+        return string.Format("贴图所占用的内存：{0}   建议：<100 KB\n贴图数量：{1} 建议：<5", memorySize, textureCount);
     }
 
     public static string GetParticleSystemCount(GameObject go)
