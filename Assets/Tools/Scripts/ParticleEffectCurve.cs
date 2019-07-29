@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleEffectCurve : MonoBehaviour {
+public class ParticleEffectCurve {
 
     public AnimationCurve animationCurve = new AnimationCurve();
 
@@ -57,3 +58,4 @@ public class ParticleEffectCurve : MonoBehaviour {
     }
 
 }
+#endif

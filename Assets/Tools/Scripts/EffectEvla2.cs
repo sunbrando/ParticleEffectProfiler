@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +40,7 @@ public class EffectEvla2 : EffectEvla
         this.Init(Camera.main);
     }
 
-    public void Init(Camera camera)
+    public override void Init(Camera camera)
     {
         CSVEffectEvlaHelper.GetInstance();
 
@@ -95,7 +96,7 @@ public class EffectEvla2 : EffectEvla
         }
         singleEffectEvlas = null;
 
-        CSVEffectEvlaHelper cSVEffectEvlaHelper = CSVEffectEvlaHelper.GetInstance();
+        CSVEffectEvlaHelper.GetInstance();
         CSVEffectEvlaHelper.DestroyInstance();
     }
     
@@ -318,3 +319,4 @@ public class SingleEffectEvlaComparer2 : IComparer
         return 0;
     }
 }
+#endif

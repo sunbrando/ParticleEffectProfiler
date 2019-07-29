@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -44,7 +45,11 @@ public class ParticleEffectScript : MonoBehaviour {
     void Start()
     {
         m_ParticleSystems = GetComponentsInChildren<ParticleSystem>();
+#if UNITY_2017
         m_CalculateEffectUIDataMethod = typeof(ParticleSystem).GetMethod("CalculateEffectUIData", BindingFlags.Instance | BindingFlags.NonPublic);
+#else
+        m_CalculateEffectUIDataMethod = typeof(ParticleSystem).GetMethod("CountSubEmitterParticles", BindingFlags.Instance | BindingFlags.NonPublic);
+#endif
     }
 
     private void LateUpdate()
@@ -68,9 +73,16 @@ public class ParticleEffectScript : MonoBehaviour {
         foreach (var ps in m_ParticleSystems)
         {
             int count = 0;
-            object[] invokeArgs = new object[] { count, 0.0f, Mathf.Infinity };
+#if UNITY_2017
+            object[] invokeArgs = { count, 0.0f, Mathf.Infinity };
             m_CalculateEffectUIDataMethod.Invoke(ps, invokeArgs);
             count = (int)invokeArgs[0];
+#else
+            object[] invokeArgs = { count };
+            m_CalculateEffectUIDataMethod.Invoke(ps, invokeArgs);
+            count = (int)invokeArgs[0];
+            count += ps.particleCount;
+#endif
             m_ParticleCount += count;
         }
         if (m_MaxParticleCount < m_ParticleCount)
@@ -118,3 +130,4 @@ public class ParticleEffectScript : MonoBehaviour {
         };
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class EffectEvla {
     SingleEffectEvla singleEffectEvla;
     public float time = 0;
 
-    public void Init(Camera camera)
+    public virtual void Init(Camera camera)
     {
         SetCamera(camera);
     }
@@ -121,3 +122,4 @@ public class EffectEvla {
     }
     #endregion
 }
+#endif

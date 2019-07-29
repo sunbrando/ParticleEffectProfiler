@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -9,8 +10,10 @@ public class GetParticleEffectData {
 
     static int m_MaxDrawCall = 0;
 
-    public static string GetRuntimeMemorySize(GameObject go)
+    public static string GetRuntimeMemorySize(GameObject go, out int textureCount)
     {
+        var textures = new List<Texture>();
+        textureCount = 0;
         long sumSize = 0;
 
         List<ParticleSystemRenderer> meshRendererlist = GetComponentByType<ParticleSystemRenderer>(go);
@@ -20,13 +23,28 @@ public class GetParticleEffectData {
             if (item.sharedMaterial)
             {
                 Texture texture = item.sharedMaterial.mainTexture;
-                if (texture)
+                if (texture && !textures.Contains(texture))
                 {
-                    sumSize = sumSize + Profiler.GetRuntimeMemorySizeLong(texture);
+                    textures.Add(texture);
+                    textureCount++;
+                    sumSize = sumSize + GetStorageMemorySize(texture);
                 }
             }
         }
         return EditorUtility.FormatBytes(sumSize);
+    }
+
+    private static int GetStorageMemorySize(Texture texture)
+    {
+        return (int)InvokeInternalAPI("UnityEditor.TextureUtil", "GetStorageMemorySize", texture);
+    }
+
+    private static object InvokeInternalAPI(string type, string method, params object[] parameters)
+    {
+        var assembly = typeof(AssetDatabase).Assembly;
+        var custom = assembly.GetType(type);
+        var methodInfo = custom.GetMethod(method, BindingFlags.Public | BindingFlags.Static);
+        return methodInfo != null ? methodInfo.Invoke(null, parameters) : 0;
     }
 
     //获取物体对应的组件，包括子对象
@@ -45,13 +63,21 @@ public class GetParticleEffectData {
                     list.Add((T)component);
                 }
             }
-        } 
+        }
         return list;
     }
 
     public static string GetGetRuntimeMemorySizeStr(GameObject go)
     {
-        return string.Format("贴图所占用的内存：{0}   建议：<100 KB", GetRuntimeMemorySize(go));
+        int textureCount;
+        string memorySize = GetRuntimeMemorySize(go, out textureCount);
+        return string.Format("贴图所占用的内存：{0}   建议：<100 KB\n贴图数量：{1} 建议：<5", memorySize, textureCount);
+    }
+
+    public static string GetParticleSystemCount(GameObject go)
+    {
+        var particleSystems = go.GetComponentsInChildren<ParticleSystem>(true);
+        return string.Format("特效中所有粒子系统组件数量：{0}     建议：<5", particleSystems.Length);
     }
 
     public static int GetOnlyParticleEffecDrawCall()
@@ -170,7 +196,9 @@ public class GetParticleEffectData {
             {
                 case ParticleSystemShapeType.Cone:
                 case ParticleSystemShapeType.ConeVolume:
+#if UNITY_2017_1_OR_NEWER
                 case ParticleSystemShapeType.Donut:
+#endif
                 case ParticleSystemShapeType.Circle:
                     if(particleSystem.shape.arcMode != ParticleSystemShapeMultiModeValue.Random)
                     {
@@ -212,11 +240,11 @@ public class GetParticleEffectData {
         {
             text += "\n勾选了 Limit Velocity Over Lifetime";
         }
-        if (particleSystem.simulationSpace != 0)
+        if (particleSystem.main.simulationSpace != ParticleSystemSimulationSpace.Local)
         {
-            text += "\nSimulationSpace 不等于0";
+            text += "\nSimulationSpace 不等于 Local";
         }
-        if (particleSystem.gravityModifier != 0)
+        if (particleSystem.main.gravityModifierMultiplier != 0)
         {
             text += "\nGravityModifier 不等于0";
         }
@@ -238,7 +266,7 @@ public class GetParticleEffectData {
             result = (flag && flag2);
         }
 
-        return flag;
+        return result;
     }
 
     static bool AnimationCurveSupportsProcedural(AnimationCurve curve)
@@ -257,4 +285,4 @@ public class GetParticleEffectData {
         return false; //只能默认返回false了
     }
 }
-
+#endif
