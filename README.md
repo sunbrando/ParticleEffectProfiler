@@ -33,8 +33,12 @@ ParticleEffectScript脚本：
 ---
 进行测试特效的时候，会修改摄像机的shader， 显示成类似Scene视图的Overdraw模式。  
 
+支持：
+---
+Unity5.x 和 Unity2017.x
+
 License
 ---
 This library is under the MIT License.
 
-感谢 [狂飙](https://github.com/networm) 的[建议](https://networm.me/2019/07/28/unity-particle-effect-profiler/?tdsourcetag=s_pcqq_aiomsg)
+感谢 [狂飙](https://github.com/networm) 的[建议](https://networm.me/2019/07/28/unity-particle-effect-profiler/)
