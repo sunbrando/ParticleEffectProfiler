@@ -13,13 +13,15 @@ Unity 特效性能分析工具
 使用：
 ---
 ![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126165417.png)  
-右键特效预设，并点击--测试，（会自动添加ParticleEffectScript脚本，并运行Unity）  
+将场景中的相机对准好特效，添加要测试的特效（只能一个），右键--特效--测试，（会自动添加ParticleEffectScript脚本，并运行Unity）  
 
 ParticleEffectScript脚本：
 ---
 会记录Overdraw、DrawCall、粒子数量这三个数据，并可以以折线图的形式展示。  
 折线图内一个点代表一帧，如果没有勾选循环，则默认会记录3秒的数据，一秒30帧，会记录90个点。  
-如果是循环特效，就勾选循环，数据会不断记录，但显示的长度默认是90个点，可以在代码里修改。  
+可以修改特效运行时间而修改打点的长度。
+如果是循环特效，就勾选循环，数据就会不断记录。
+
 ![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126174343.png)  
 
 无法自动裁剪（automic culling）：
