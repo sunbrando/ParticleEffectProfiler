@@ -10,23 +10,29 @@ public class ParticleEffectCurve {
 
     public AnimationCurve animationCurve = new AnimationCurve();
 
-    static float second = 3;
     static int FPS = 30;
 
     //打点的数量：默认90个
-    float m_ValueCount = second * FPS;
-    int onlyCount = 0;
+    int m_ValueCount = 3 * FPS;
 
     List<float> m_Values = new List<float>();
 
-    public ParticleEffectCurve(float s)
-    {
-        second = s;
-    }
-
-    public AnimationCurve UpdateAnimationCurve(float value, bool loop)
+    public AnimationCurve UpdateAnimationCurve(float value, bool loop, int second)
     {
         m_ValueCount = second * FPS;
+
+        if (animationCurve.length > m_ValueCount)
+        {
+            for (int i = animationCurve.length-1; i >= m_ValueCount; i--)
+            {
+                Debug.Log(i);
+                animationCurve.RemoveKey(i);
+                if (i <= m_Values.Count)
+                {
+                    m_Values.RemoveAt(i);
+                }
+            }
+        }
 
         if (loop)
         {
@@ -36,21 +42,20 @@ public class ParticleEffectCurve {
             }
 
             m_Values.Add(value);
-            for (int i = 0; i < m_Values.Count - 1; i++)
+            for (int i = 0; i < m_Values.Count; i++)
             {
                 if (animationCurve.length > i)
                 {
                     animationCurve.RemoveKey(i);
                 }
-                animationCurve.AddKey((float)i, m_Values[i]);
+                animationCurve.AddKey(i, m_Values[i]);
             }
         }
         else
         {
-            if (onlyCount < m_ValueCount)
+            if (animationCurve.length < m_ValueCount)
             {
-                onlyCount += 1;
-                animationCurve.AddKey((float)onlyCount, value);
+                animationCurve.AddKey(animationCurve.length, value);
             }
         }
 

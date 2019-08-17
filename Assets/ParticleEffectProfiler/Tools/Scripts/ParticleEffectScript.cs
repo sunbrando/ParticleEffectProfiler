@@ -18,7 +18,8 @@ public class ParticleEffectScript : MonoBehaviour {
     public AnimationCurve Overdraw = new AnimationCurve();
     //特效是否循环播放
     public bool 循环 = false;
-    public float 特效运行时间 = 3;
+    [Range(1,10)]
+    public int 特效运行时间 = 3;
 
     EffectEvla m_EffectEvla;
     ParticleSystem[] m_ParticleSystems;
@@ -36,9 +37,9 @@ public class ParticleEffectScript : MonoBehaviour {
         Debug.Log("开始测试单个粒子系统");
         Application.targetFrameRate = 30;
 
-        m_CurveParticleCount = new ParticleEffectCurve(特效运行时间);
-        m_CurveDrawCallCount = new ParticleEffectCurve(特效运行时间);
-        m_CurveOverdraw = new ParticleEffectCurve(特效运行时间);
+        m_CurveParticleCount = new ParticleEffectCurve();
+        m_CurveDrawCallCount = new ParticleEffectCurve();
+        m_CurveOverdraw = new ParticleEffectCurve();
 
         m_EffectEvla = new EffectEvla();
         m_EffectEvla.Init(Camera.main);
@@ -106,17 +107,17 @@ public class ParticleEffectScript : MonoBehaviour {
 
     void UpdateParticleCountCurve()
     {
-        粒子数量 = m_CurveParticleCount.UpdateAnimationCurve(m_ParticleCount, 循环);
+        粒子数量 = m_CurveParticleCount.UpdateAnimationCurve(m_ParticleCount, 循环, 特效运行时间);
     }
     void UpdateDrawCallCurve()
     {
-        DrawCall = m_CurveDrawCallCount.UpdateAnimationCurve(GetParticleEffectData.GetOnlyParticleEffecDrawCall(), 循环);
+        DrawCall = m_CurveDrawCallCount.UpdateAnimationCurve(GetParticleEffectData.GetOnlyParticleEffecDrawCall(), 循环, 特效运行时间);
     }
 
     void UpdateOverdrawCurve()
     {
         EffectEvlaData[] effectEvlaData = this.GetEffectEvlaData();
-        Overdraw = m_CurveOverdraw.UpdateAnimationCurve((float)effectEvlaData[0].GetPixRate(), 循环);
+        Overdraw = m_CurveOverdraw.UpdateAnimationCurve((float)effectEvlaData[0].GetPixRate(), 循环, 特效运行时间);
     }
 
 	//监听apply事件
