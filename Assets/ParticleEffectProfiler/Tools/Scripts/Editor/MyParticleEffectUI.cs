@@ -37,12 +37,15 @@ public class MyParticleEffectUI : Editor {
 
         //规定GUI显示区域
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+        GUIStyle style = new GUIStyle();
+        style.richText = true;
+        style.fontStyle = FontStyle.Bold;
 
         for (int i = 0; i < m_Label.Length; i++)
 		{
             if (!string.IsNullOrEmpty(m_Label[i]))
 	        {
-		        GUILayout.Label(m_Label[i]);
+		        GUILayout.Label(m_Label[i], style);
 	        }
 		}
 

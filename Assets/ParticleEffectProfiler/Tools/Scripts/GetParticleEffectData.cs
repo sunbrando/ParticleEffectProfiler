@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,7 +14,7 @@ public class GetParticleEffectData {
 
     static int m_MaxDrawCall = 0;
 
-    public static string GetRuntimeMemorySize(GameObject go, out int textureCount)
+    public static long GetRuntimeMemorySize(GameObject go, out int textureCount)
     {
         var textures = new List<Texture>();
         textureCount = 0;
@@ -34,7 +35,7 @@ public class GetParticleEffectData {
                 }
             }
         }
-        return EditorUtility.FormatBytes(sumSize);
+        return sumSize;
     }
 
     private static int GetStorageMemorySize(Texture texture)
@@ -72,15 +73,26 @@ public class GetParticleEffectData {
 
     public static string GetGetRuntimeMemorySizeStr(GameObject go)
     {
+        int maxTextureCount = 5;
+        int maxMemorySize = 1000 * 1024;
         int textureCount;
-        string memorySize = GetRuntimeMemorySize(go, out textureCount);
-        return string.Format("贴图所占用的内存：{0}   建议：<100 KB\n贴图数量：{1} 建议：<5", memorySize, textureCount);
+        long memorySize = GetRuntimeMemorySize(go, out textureCount);
+        string memorySizeStr = EditorUtility.FormatBytes(memorySize);
+        string maxMemorySizeStr = EditorUtility.FormatBytes(maxMemorySize);
+
+        if (maxMemorySize > memorySize)
+            memorySizeStr = string.Format("<color=green>{0}</color>", memorySizeStr);
+        else
+            memorySizeStr = string.Format("<color=red>{0}</color>", memorySizeStr);
+
+        return string.Format("贴图所占用的内存：{0}   建议：<{1}\n贴图数量：{2}     建议：<{3}", memorySizeStr, maxMemorySizeStr, FormatColorMax(textureCount, maxTextureCount), maxTextureCount);
     }
 
     public static string GetParticleSystemCount(GameObject go)
     {
+        int max = 5;
         var particleSystems = go.GetComponentsInChildren<ParticleSystem>(true);
-        return string.Format("特效中所有粒子系统组件数量：{0}     建议：<5", particleSystems.Length);
+        return string.Format("特效中所有粒子系统组件数量：{0}     建议：<{1}", FormatColorMax(particleSystems.Length, max), max);
     }
 
     public static int GetOnlyParticleEffecDrawCall()
@@ -95,30 +107,37 @@ public class GetParticleEffectData {
 
     public static string GetOnlyParticleEffecDrawCallStr()
     {
-        return string.Format("DrawCall: {0}   最高：{1}   建议：<10", GetOnlyParticleEffecDrawCall(), m_MaxDrawCall);
+        int max = 10;
+        return string.Format("DrawCall: {0}   最高：{1}   建议：<{2}", FormatColorMax(GetOnlyParticleEffecDrawCall(), max), FormatColorMax(m_MaxDrawCall, max), max);
     }
 
     public static string GetPixDrawAverageStr(ParticleEffectScript particleEffectGo)
     {
+        //index = 0：默认按高品质的算，这里你可以根本你们项目的品质进行修改。
         EffectEvlaData[] effectEvlaData = particleEffectGo.GetEffectEvlaData();
-        //0：默认按高品质的算，这里你可以根本你们项目的品质进行修改。
-        return effectEvlaData[0].GetPixDrawAverageStr();
+        float pixDrawAverage = (float)Math.Round(effectEvlaData[0].GetPixDrawAverage());
+        return string.Format("特效原填充像素点：{0}", FormatColorValue(pixDrawAverage));
     }
 
     public static string GetPixActualDrawAverageStr(ParticleEffectScript particleEffectGo)
     {
         EffectEvlaData[] effectEvlaData = particleEffectGo.GetEffectEvlaData();
-        return effectEvlaData[0].GetPixActualDrawAverageStr();
+        float pixActualDrawAverage = (float)Math.Round(effectEvlaData[0].GetPixActualDrawAverage());
+        return string.Format("特效实际填充像素点：{0}", FormatColorValue(pixActualDrawAverage));
     }
+
     public static string GetPixRateStr(ParticleEffectScript particleEffectGo)
     {
+        int max = 4;
         EffectEvlaData[] effectEvlaData = particleEffectGo.GetEffectEvlaData();
-        return effectEvlaData[0].GetPixRateStr() + "   建议：<4";
+        float pixRate = (float)Math.Round(effectEvlaData[0].GetPixRate(), 2);
+        return string.Format("平均每像素overdraw率：{0}   建议：<{1}", FormatColorMax(pixRate, max), max);
     }
 
     public static string GetParticleCountStr(ParticleEffectScript particleEffectGo)
     {
-        return string.Format("粒子数量：{0}   最高：{1}   建议：<50", particleEffectGo.GetParticleCount(), particleEffectGo.GetMaxParticleCount());
+        int max = 50;
+        return string.Format("粒子数量：{0}   最高：{1}   建议：<{2}", FormatColorMax(particleEffectGo.GetParticleCount(), max), FormatColorMax(particleEffectGo.GetMaxParticleCount(), max), max);
     }
 
     public static string GetCullingSupportedString(GameObject go)
@@ -285,6 +304,19 @@ public class GetParticleEffectData {
         //        break;
         //}
         return false; //只能默认返回false了
+    }
+
+    static string FormatColorValue(float value)
+    {
+        return string.Format("<color=green>{0}</color>", value);
+    }
+
+    static string FormatColorMax(float value, float max)
+    {
+        if (max > value)
+            return string.Format("<color=green>{0}</color>", value);
+        else
+            return string.Format("<color=red>{0}</color>", value);
     }
 }
 #endif
