@@ -3,7 +3,7 @@
 Unity 特效性能分析工具
 
 
-![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126164833.png)
+![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E5%9B%BE%E7%89%8720190823003254.png)
 
 简介：
 ---
