@@ -12,6 +12,9 @@ public class EffectEvla
     public Camera _camera;
     SingleEffectEvla singleEffectEvla;
     public float time = 0;
+    //采集特效数据的区域大小
+    int rtSizeWidth = 512;
+    int rtSizeHeight = 512;
 
     public virtual void Init(Camera camera)
     {
@@ -60,7 +63,7 @@ public class EffectEvla
     public void GetCameraOverDrawData(out long pixTotal, out long pixActualDraw)
     {
         RenderTexture activeTextrue = RenderTexture.active;
-        RenderTexture rt = new RenderTexture(512, 512, 0, RenderTextureFormat.ARGB32);
+        RenderTexture rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32);
         _camera.targetTexture = rt;
         _camera.Render();
         RenderTexture.active = rt;
@@ -111,8 +114,10 @@ public class EffectEvla
     }
 
 
+    //计算单像素的绘制次数
     public int DrawPixTimes(float r, float g, float b)
     {
+        //在OverDraw.Shader中像素每渲染一次，g值就会叠加0.04
         return Convert.ToInt32(g / 0.04);
     }
 
