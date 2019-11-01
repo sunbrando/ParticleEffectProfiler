@@ -28,9 +28,10 @@ ParticleEffectScript脚本：
 ---
 ![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E5%9B%BE%E7%89%8720190126171957.png)  
 当特效出现这个提示时候，自动剔除会关闭。
-一般Unity在特效超出屏幕范围的时候，就会剔除此特效，但由于特效的制作过程中，会使用一些非线性的运算，导致Unity无法实时获取到粒子的位置，这就导致即使特效超出屏幕了Unity也会继续更新，无法对其自动剔除。当游戏中特效多的时候这也是很影响性能的一个点，所以在面板统一显示方便查看。
+一般Unity在特效超出屏幕范围的时候，就会剔除此特效，但由于特效的制作过程中，会使用一些非线性的运算，导致Unity无法实时获取到粒子的位置，这就导致即使特效超出屏幕了Unity也会继续更新，无法对其自动剔除。[(Unity的文档说明)](https://docs.unity3d.com/ScriptReference/ParticleSystem-automaticCullingEnabled.html)
 
-![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126174337.png)  
+![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126174337.png) 
+当游戏中特效多的时候这也是很影响性能的一个点，所以在面板统一显示方便查看。
 但这里的还不够全面，有部分无法自动裁剪的没法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，搜索UpdateCullingSupportedString这个函数进行了解。  
 
 摄像机：
