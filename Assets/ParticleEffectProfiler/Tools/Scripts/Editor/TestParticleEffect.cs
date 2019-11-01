@@ -9,21 +9,30 @@ public static class TestParticleEffect
 {
     private const string RequestTestKey = "TestParticleEffectRquestTest";
     private static bool _hasPlayed;
+    static bool isRestart = false;
 
     [MenuItem("GameObject/特效/测试", false, 11)]
     private static void Test()
     {
         var go = Selection.activeGameObject;
-        var particleSystemRenderer = GetParticleEffectData.GetComponentByType<ParticleSystemRenderer>(go);
+        var particleSystemRenderer = go.GetComponentsInChildren<ParticleSystemRenderer>(true);
 
-        if (particleSystemRenderer.Count == 0)
+        if (particleSystemRenderer.Length == 0)
         {
             Debug.LogError("不是特效无法测试！");
             return;
         }
 
         EditorPrefs.SetBool(RequestTestKey, true);
-        EditorApplication.isPlaying = true;
+
+        //已经在播放状态，使其重新开始
+        if (EditorApplication.isPlaying)
+        {
+            EditorApplication.isPlaying = false;
+            isRestart = true;
+        }
+        else
+            EditorApplication.isPlaying = true;
     }
 
     static TestParticleEffect()
@@ -43,9 +52,9 @@ public static class TestParticleEffect
 
             var go = Selection.activeGameObject;
 
-            var particleEffectScript = GetParticleEffectData.GetComponentByType<ParticleEffectScript>(go);
+            var particleEffectScript = go.GetComponentsInChildren<ParticleEffectScript>(true);
 
-            if (particleEffectScript.Count == 0)
+            if (particleEffectScript.Length == 0)
             {
                 go.AddComponent<ParticleEffectScript>();
             }
@@ -57,6 +66,12 @@ public static class TestParticleEffect
         if (!EditorApplication.isPlaying)
         {
             _hasPlayed = false;
+        }
+
+        if (isRestart)
+        {
+            EditorApplication.isPlaying = true;
+            isRestart = false;
         }
     }
 }
