@@ -63,7 +63,7 @@ public class MyParticleEffectUI : Editor {
         string autoCullingTips = GetParticleEffectData.GetCullingSupportedString(particleEffectScript.gameObject);
         if (!string.IsNullOrEmpty(autoCullingTips))
         {
-            GUILayout.Label("ParticleSystem以下选项会导致无法自动裁剪：", EditorStyles.whiteLargeLabel);
+            GUILayout.Label("ParticleSystem以下选项会导致无法自动剔除：", EditorStyles.whiteLargeLabel);
             GUILayout.Label(autoCullingTips);
         }
     }
