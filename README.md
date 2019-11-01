@@ -33,7 +33,8 @@ ParticleEffectScript脚本：
 ![Image text](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/QQ%E6%88%AA%E5%9B%BE20190126174337.png) 
 
 当游戏中特效多的时候这也是很影响性能的一个点，所以在面板统一显示方便查看。
-但这里的还不够全面，有部分无法自动裁剪的没法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，搜索UpdateCullingSupportedString这个函数进行了解。  
+
+但这里的还不够全面，有部分自动裁剪的无法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，搜索UpdateCullingSupportedString这个函数进行了解，希望有想到其他解决办法小伙伴可以在这里贡献下代码。  
 
 摄像机：
 ---
