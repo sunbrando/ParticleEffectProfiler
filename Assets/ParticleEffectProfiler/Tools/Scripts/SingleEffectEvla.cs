@@ -8,7 +8,6 @@ using UnityEngine;
 /// 处理单个特效的像素点
 /// </summary>
 public class SingleEffectEvla {
-    private ParticleSystem[] _particleSystems;
     private EffectEvlaData[] _effectEvlaData;
     private int _qualityIndex = 0;
     public GameObject _effectObj;
@@ -24,12 +23,6 @@ public class SingleEffectEvla {
         }
 
         ChangeQuality(qualityIndex);
-    }
-
-    public void SetEffectObj(GameObject go)
-    {
-        _effectObj = go;
-        _particleSystems = _effectObj.GetComponentsInChildren<ParticleSystem>(true);
     }
 
     public void UpdateOneData(long pixDraw, long pixActualDraw)

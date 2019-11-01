@@ -35,16 +35,12 @@ public class ParticleEffectScript : MonoBehaviour {
     void Awake()
     {
         Debug.Log("开始测试单个粒子系统");
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = ParticleEffectCurve.FPS;
 
         m_CurveParticleCount = new ParticleEffectCurve();
         m_CurveDrawCallCount = new ParticleEffectCurve();
         m_CurveOverdraw = new ParticleEffectCurve();
-
-        m_EffectEvla = new EffectEvla();
-        m_EffectEvla.Init(Camera.main);
-        m_EffectEvla.InitData();
-        m_EffectEvla.SetEffectObj(this.gameObject);
+        m_EffectEvla = new EffectEvla(Camera.main);
     }
 
     void Start()
@@ -126,9 +122,9 @@ public class ParticleEffectScript : MonoBehaviour {
     {
         PrefabUtility.prefabInstanceUpdated = delegate(GameObject instance)
         {
-            List<ParticleEffectScript> particleEffectScript = GetParticleEffectData.GetComponentByType<ParticleEffectScript>(instance);
+            var particleEffectScript = instance.GetComponentsInChildren<ParticleEffectScript>(true);
 
-            if (particleEffectScript.Count > 0)
+            if (particleEffectScript.Length > 0)
             {
                 Debug.LogError("保存前请先删除ParticleEffectScript脚本！");
             }

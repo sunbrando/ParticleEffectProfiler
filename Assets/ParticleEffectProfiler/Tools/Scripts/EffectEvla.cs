@@ -15,20 +15,13 @@ public class EffectEvla
     //采集特效数据的区域大小
     int rtSizeWidth = 512;
     int rtSizeHeight = 512;
+    RenderTexture rt;
 
-    public virtual void Init(Camera camera)
+    public EffectEvla(Camera camera)
     {
         SetCamera(camera);
-    }
-
-    public void InitData()
-    {
+        rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32);
         singleEffectEvla = new SingleEffectEvla(1);
-    }
-
-    public void SetEffectObj(GameObject go)
-    {
-        singleEffectEvla.SetEffectObj(go);
     }
 
     public void SetCamera(Camera camera)
@@ -62,16 +55,18 @@ public class EffectEvla
 
     public void GetCameraOverDrawData(out long pixTotal, out long pixActualDraw)
     {
+        //记录当前激活的渲染纹理
         RenderTexture activeTextrue = RenderTexture.active;
-        RenderTexture rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32);
+
+        //渲染指定范围的rt，并记录范围内所有rgb像素值
         _camera.targetTexture = rt;
         _camera.Render();
         RenderTexture.active = rt;
         Texture2D texture = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
         texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-
         GetOverDrawData(texture, out pixTotal, out pixActualDraw);
 
+        //恢复之前激活的渲染纹理
         RenderTexture.active = activeTextrue;
         Texture2D.DestroyImmediate(texture);
         rt.Release();

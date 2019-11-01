@@ -10,7 +10,7 @@ public class ParticleEffectCurve {
 
     public AnimationCurve animationCurve = new AnimationCurve();
 
-    static int FPS = 30;
+    public static int FPS = 30;
 
     //打点的数量：默认90个
     int m_ValueCount = 3 * FPS;

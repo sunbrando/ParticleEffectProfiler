@@ -20,7 +20,7 @@ public class GetParticleEffectData {
         textureCount = 0;
         long sumSize = 0;
 
-        List<ParticleSystemRenderer> meshRendererlist = GetComponentByType<ParticleSystemRenderer>(go);
+        var meshRendererlist = go.GetComponentsInChildren<ParticleSystemRenderer>(true);
 
         foreach (ParticleSystemRenderer item in meshRendererlist)
         {
@@ -51,26 +51,6 @@ public class GetParticleEffectData {
         return methodInfo != null ? methodInfo.Invoke(null, parameters) : 0;
     }
 
-    //获取物体对应的组件，包括子对象
-    public static List<T> GetComponentByType<T>(GameObject go) where T : Component
-    {
-        List<T> list = new List<T>();
-
-        Transform[] grandFa = go.GetComponentsInChildren<Transform>(true); //true代表可以查隐藏的子物体
-
-        foreach (Transform child in grandFa)
-        {
-            foreach (var component in child.GetComponents<Component>())
-            {
-                if (component.GetType() == typeof(T))
-                {
-                    list.Add((T)component);
-                }
-            }
-        }
-        return list;
-    }
-
     public static string GetGetRuntimeMemorySizeStr(GameObject go)
     {
         int maxTextureCount = 5;
@@ -97,6 +77,7 @@ public class GetParticleEffectData {
 
     public static int GetOnlyParticleEffecDrawCall()
     {
+        //因为Camera 实际上渲染了两次，一次用作取样，一次用作显示。 狂飙这里给出了详细的说明：https://networm.me/2019/07/28/unity-particle-effect-profiler/#drawcall-%E6%95%B0%E5%80%BC%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%AE%9E%E9%99%85%E5%A4%A7-2-%E5%80%8D
         int drawCall = UnityEditor.UnityStats.batches / 2;
         if (m_MaxDrawCall<drawCall)
         {
@@ -142,7 +123,7 @@ public class GetParticleEffectData {
 
     public static string GetCullingSupportedString(GameObject go)
     {
-        List<ParticleSystem> particleSystems = GetComponentByType<ParticleSystem>(go);
+        var particleSystems = go.GetComponentsInChildren<ParticleSystem>(true);
         string text = "";
         foreach (ParticleSystem item in particleSystems)
         {
