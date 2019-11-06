@@ -39,7 +39,7 @@ ParticleEffectScript脚本：
 摄像机：
 ---
 进行测试特效的时候，会修改摄像机的shader， 显示成类似Scene视图的Overdraw模式。
-特效的位置最好是正好全覆盖屏幕，不要太近，也不要太远（特效在屏幕内的比例变小，有效像素变少，导致平均Overdraw也少计算）。
+特效的位置最好是正好全覆盖屏幕，不要太近，也不要太远（如果启用了[Mipmap](https://learnopengl-cn.github.io/01%20Getting%20started/06%20Textures/#_4)，太远有效像素会变少，导致平均Overdraw也少计算）。
 
 支持：
 ---
