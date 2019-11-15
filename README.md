@@ -1,7 +1,6 @@
 <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu"></a>
 # ParticleEffectProfiler
-Unity 特效性能分析工具
-
+Unity 特效性能分析工具（[来自UWA公众号的安利](https://mp.weixin.qq.com/s/bKUwKw6VeJzk8fqIyKYjVQ)）
 
 ![inspector](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/jdfw%20(1).gif)
 
@@ -34,7 +33,7 @@ ParticleEffectScript脚本：
 
 当游戏中特效多的时候这也是很影响性能的一个点，所以在面板统一显示方便查看。
 
-但这里的还不够全面，有部分自动裁剪的无法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，搜索UpdateCullingSupportedString这个函数进行了解，希望有想到其他解决办法小伙伴可以在这里贡献下代码。  
+但这里的还不够全面，有部分自动裁剪的无法判断，因为有部分属性无法访问，有兴趣的可以反编译UnityEditor.dll，搜索UpdateCullingSupportedString这个函数进行了解，希望有想到其他解决办法的小伙伴可以在这里贡献下代码。  
 
 摄像机：
 ---
