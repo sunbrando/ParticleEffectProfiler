@@ -46,7 +46,7 @@ public class ParticleEffectScript : MonoBehaviour {
     void Start()
     {
         m_ParticleSystems = GetComponentsInChildren<ParticleSystem>();
-#if UNITY_2017
+#if UNITY_2017_1_OR_NEWER
         m_CalculateEffectUIDataMethod = typeof(ParticleSystem).GetMethod("CalculateEffectUIData", BindingFlags.Instance | BindingFlags.NonPublic);
 #else
         m_CalculateEffectUIDataMethod = typeof(ParticleSystem).GetMethod("CountSubEmitterParticles", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -74,7 +74,7 @@ public class ParticleEffectScript : MonoBehaviour {
         foreach (var ps in m_ParticleSystems)
         {
             int count = 0;
-#if UNITY_2017
+#if UNITY_2017_1_OR_NEWER
             object[] invokeArgs = { count, 0.0f, Mathf.Infinity };
             m_CalculateEffectUIDataMethod.Invoke(ps, invokeArgs);
             count = (int)invokeArgs[0];
