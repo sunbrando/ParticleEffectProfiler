@@ -15,9 +15,9 @@ public class ParticleEffectCurve {
     //打点的数量：默认90个
     int m_ValueCount = 3 * FPS;
 
-    List<float> m_Values = new List<float>();
+    List<int> m_Values = new List<int>();
 
-    public AnimationCurve UpdateAnimationCurve(float value, bool loop, int second)
+    public AnimationCurve UpdateAnimationCurve(int value, bool loop, int second)
     {
         m_ValueCount = second * FPS;
 

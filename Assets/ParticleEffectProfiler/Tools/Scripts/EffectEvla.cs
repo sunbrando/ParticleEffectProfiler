@@ -44,8 +44,8 @@ public class EffectEvla
     #region overdraw
     public void RecordOverDrawData(SingleEffectEvla singleEffectEvla)
     {
-        long pixTotal = 0;
-        long pixActualDraw = 0;
+        int pixTotal = 0;
+        int pixActualDraw = 0;
 
         GetCameraOverDrawData(out pixTotal, out pixActualDraw);
 
@@ -53,7 +53,7 @@ public class EffectEvla
         singleEffectEvla.UpdateOneData(pixTotal, pixActualDraw);
     }
 
-    public void GetCameraOverDrawData(out long pixTotal, out long pixActualDraw)
+    public void GetCameraOverDrawData(out int pixTotal, out int pixActualDraw)
     {
         //记录当前激活的渲染纹理
         RenderTexture activeTextrue = RenderTexture.active;
@@ -73,7 +73,7 @@ public class EffectEvla
         _camera.targetTexture = null;
     }
 
-    public void GetOverDrawData(Texture2D texture, out long pixTotal, out long pixActualDraw)
+    public void GetOverDrawData(Texture2D texture, out int pixTotal, out int pixActualDraw)
     {
         var texw = texture.width;
         var texh = texture.height;

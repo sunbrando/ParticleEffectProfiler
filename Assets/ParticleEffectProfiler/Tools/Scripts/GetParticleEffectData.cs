@@ -14,11 +14,11 @@ public class GetParticleEffectData {
 
     static int m_MaxDrawCall = 0;
 
-    public static long GetRuntimeMemorySize(GameObject go, out int textureCount)
+    public static int GetRuntimeMemorySize(GameObject go, out int textureCount)
     {
         var textures = new List<Texture>();
         textureCount = 0;
-        long sumSize = 0;
+        int sumSize = 0;
 
         var meshRendererlist = go.GetComponentsInChildren<ParticleSystemRenderer>(true);
 
@@ -56,7 +56,7 @@ public class GetParticleEffectData {
         int maxTextureCount = 5;
         int maxMemorySize = 1000 * 1024;
         int textureCount;
-        long memorySize = GetRuntimeMemorySize(go, out textureCount);
+        int memorySize = GetRuntimeMemorySize(go, out textureCount);
         string memorySizeStr = EditorUtility.FormatBytes(memorySize);
         string maxMemorySizeStr = EditorUtility.FormatBytes(maxMemorySize);
 
@@ -96,14 +96,14 @@ public class GetParticleEffectData {
     {
         //index = 0：默认按高品质的算，这里你可以根本你们项目的品质进行修改。
         EffectEvlaData[] effectEvlaData = particleEffectGo.GetEffectEvlaData();
-        float pixDrawAverage = (float)Math.Round(effectEvlaData[0].GetPixDrawAverage());
+        int pixDrawAverage = effectEvlaData[0].GetPixDrawAverage();
         return string.Format("特效原填充像素点：{0}", FormatColorValue(pixDrawAverage));
     }
 
     public static string GetPixActualDrawAverageStr(ParticleEffectScript particleEffectGo)
     {
         EffectEvlaData[] effectEvlaData = particleEffectGo.GetEffectEvlaData();
-        float pixActualDrawAverage = (float)Math.Round(effectEvlaData[0].GetPixActualDrawAverage());
+        int pixActualDrawAverage = effectEvlaData[0].GetPixActualDrawAverage();
         return string.Format("特效实际填充像素点：{0}", FormatColorValue(pixActualDrawAverage));
     }
 
@@ -111,7 +111,7 @@ public class GetParticleEffectData {
     {
         int max = 4;
         EffectEvlaData[] effectEvlaData = particleEffectGo.GetEffectEvlaData();
-        float pixRate = (float)Math.Round(effectEvlaData[0].GetPixRate(), 2);
+        int pixRate = effectEvlaData[0].GetPixRate();
         return string.Format("平均每像素overdraw率：{0}   建议：<{1}", FormatColorMax(pixRate, max), max);
     }
 
@@ -287,12 +287,12 @@ public class GetParticleEffectData {
         return false; //只能默认返回false了
     }
 
-    static string FormatColorValue(float value)
+    static string FormatColorValue(int value)
     {
         return string.Format("<color=green>{0}</color>", value);
     }
 
-    static string FormatColorMax(float value, float max)
+    static string FormatColorMax(int value, int max)
     {
         if (max > value)
             return string.Format("<color=green>{0}</color>", value);

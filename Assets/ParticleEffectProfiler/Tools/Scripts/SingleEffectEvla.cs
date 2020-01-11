@@ -25,7 +25,7 @@ public class SingleEffectEvla {
         ChangeQuality(qualityIndex);
     }
 
-    public void UpdateOneData(long pixDraw, long pixActualDraw)
+    public void UpdateOneData(int pixDraw, int pixActualDraw)
     {
         if (pixDraw <= 0 && pixActualDraw <= 0)
         {

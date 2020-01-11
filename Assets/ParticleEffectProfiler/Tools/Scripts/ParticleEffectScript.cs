@@ -113,7 +113,7 @@ public class ParticleEffectScript : MonoBehaviour {
     void UpdateOverdrawCurve()
     {
         EffectEvlaData[] effectEvlaData = this.GetEffectEvlaData();
-        Overdraw = m_CurveOverdraw.UpdateAnimationCurve((float)effectEvlaData[0].GetPixRate(), 循环, 特效运行时间);
+        Overdraw = m_CurveOverdraw.UpdateAnimationCurve(effectEvlaData[0].GetPixRate(), 循环, 特效运行时间);
     }
 
 	//监听apply事件

@@ -10,34 +10,34 @@ using UnityEngine;
 public class EffectEvlaData
 {
     public int pixDrawTimes = 0;               // 总调用的渲染次数
-    public long pixTotal = 0;                  // n次后的理论上总渲染数
-    public long pixActualDrawTotal = 0;        // n次后的实际上渲染次数
+    public int pixTotal = 0;                  // n次后的理论上总渲染数
+    public int pixActualDrawTotal = 0;        // n次后的实际上渲染次数
     public string quality;
 
     //获取指定区域内的所有像素
-    public double GetPixDrawAverage()
+    public int GetPixDrawAverage()
     {
         if (pixDrawTimes == 0)
         {
             return 0;
         }
-        return pixTotal * 1.0f / pixDrawTimes;
+        return pixTotal / pixDrawTimes;
     }
 
     //获取指定区域内的实际每个像素的绘制总数
-    public double GetPixActualDrawAverage()
+    public int GetPixActualDrawAverage()
     {
         if (pixDrawTimes == 0)
         {
             return 0;
         }
-        return pixActualDrawTotal * 1.0f / pixDrawTimes;
+        return pixActualDrawTotal / pixDrawTimes;
     }
 
     //平均像素绘制次数
-    public double GetPixRate()
+    public int GetPixRate()
     {
-        double pixDrawAverage = GetPixDrawAverage();
+        int pixDrawAverage = GetPixDrawAverage();
         if (pixDrawAverage == 0)
         {
             return 0;
@@ -48,15 +48,15 @@ public class EffectEvlaData
 
     public string GetPixDrawAverageStr()
     {
-        return "特效原填充像素点：" + Math.Round(this.GetPixDrawAverage(), 2);
+        return "特效原填充像素点：" + this.GetPixDrawAverage();
     }
     public string GetPixActualDrawAverageStr()
     {
-        return "特效实际填充像素点：" + Math.Round(this.GetPixActualDrawAverage(), 2);
+        return "特效实际填充像素点：" + this.GetPixActualDrawAverage();
     }
     public string GetPixRateStr()
     {
-        return "平均每像素overdraw率：" + Math.Round(this.GetPixRate(), 2);
+        return "平均每像素overdraw率：" + this.GetPixRate();
     }
 }
 #endif
