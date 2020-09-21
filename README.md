@@ -1,6 +1,7 @@
 <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu"></a>
 # ParticleEffectProfiler
-Unity 特效性能分析工具（[来自UWA公众号的安利](https://mp.weixin.qq.com/s/bKUwKw6VeJzk8fqIyKYjVQ)）
+Unity 特效性能分析工具（[来自UWA公众号的安利](https://mp.weixin.qq.com/s/bKUwKw6VeJzk8fqIyKYjVQ)）  
+2020-8-26：很荣幸此工具已被UWA集成，有购买UWA服务的在UWA里使用效果会更舒适（[UWA已支持批量检测粒子特效性能](https://mp.weixin.qq.com/s/Bdb3O8O6Ve3Zav9oQEiVjA)）
 
 ![inspector](https://github.com/sunbrando/ParticleEffectProfiler/blob/master/Document/jdfw%20(1).gif)
 
