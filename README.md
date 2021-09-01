@@ -43,7 +43,9 @@ ParticleEffectScript脚本：
 
 支持：
 ---
-Unity5.x 和 Unity2017.x
+Unity5.x
+Unity2017.x
+Unity2019.x
 
 License
 ---
