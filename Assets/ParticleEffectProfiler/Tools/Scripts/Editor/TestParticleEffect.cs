@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -32,7 +32,15 @@ public static class TestParticleEffect
             isRestart = true;
         }
         else
+        {
             EditorApplication.isPlaying = true;
+        }
+
+        var particleEffectScript = go.GetComponentsInChildren<ParticleEffectScript>(true);
+        if (particleEffectScript.Length == 0)
+        {
+            go.AddComponent<ParticleEffectScript>();
+        }
     }
 
     static TestParticleEffect()
@@ -49,15 +57,6 @@ public static class TestParticleEffect
         {
             EditorPrefs.DeleteKey(RequestTestKey);
             _hasPlayed = true;
-
-            var go = Selection.activeGameObject;
-
-            var particleEffectScript = go.GetComponentsInChildren<ParticleEffectScript>(true);
-
-            if (particleEffectScript.Length == 0)
-            {
-                go.AddComponent<ParticleEffectScript>();
-            }
         }
     }
 
