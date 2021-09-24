@@ -1,8 +1,9 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 /// <summary>
 /// 主要用于计算overdraw像素
@@ -108,12 +109,37 @@ public class EffectEvla
         }
     }
 
-
     //计算单像素的绘制次数
     public int DrawPixTimes(float r, float g, float b)
     {
+        switch (PlayerSettings.colorSpace)
+        {
+            case ColorSpace.Gamma:
+                return DrawPixTimesForGamma(g);
+            case ColorSpace.Linear:
+                return DrawPixTimesForLinear(g);
+            default:
+                return DrawPixTimesForGamma(g);
+        }
+    }
+
+    //Linear空间下的计算方式
+    private int DrawPixTimesForLinear(float g)
+    {
         //在OverDraw.Shader中像素每渲染一次，g值就会叠加0.04
         return Convert.ToInt32(g / 0.04);
+    }
+
+
+    //Gamma空间下的计算方式 by Blaze火神
+    private int DrawPixTimesForGamma(float g)
+    {
+        //对g值进行Gamma校正
+        float GLo = g / 12.92f;
+        float GHi = Mathf.Pow((g + 0.055f) / 1.055f, 2.4f);
+        float res = (g <= 0.04045f) ? GLo : GHi;
+
+        return Convert.ToInt32(res / 0.04);
     }
 
     public bool IsEmptyPix(float r, float g, float b)
