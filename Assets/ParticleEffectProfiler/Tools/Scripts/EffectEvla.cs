@@ -21,7 +21,20 @@ public class EffectEvla
     public EffectEvla(Camera camera)
     {
         SetCamera(camera);
-        rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32);
+
+        switch (PlayerSettings.colorSpace)
+        {
+            case ColorSpace.Gamma:
+                rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+                break;
+            case ColorSpace.Linear:
+                rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+                break;
+            default:
+                rt = new RenderTexture(rtSizeWidth, rtSizeHeight, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+                break;
+        }
+
         singleEffectEvla = new SingleEffectEvla(1);
     }
 
@@ -97,49 +110,21 @@ public class EffectEvla
                 bool isEmptyPix = IsEmptyPix(r, g, b);
                 if (!isEmptyPix)
                 {
-
                     pixTotal++;
-                }
 
-                int drawThisPixTimes = DrawPixTimes(r, g, b);
-                pixActualDraw += drawThisPixTimes;
+                    int drawThisPixTimes = DrawPixTimes(r, g, b);
+                    pixActualDraw += drawThisPixTimes;
+                }
 
                 index++;
             }
         }
     }
 
-    //计算单像素的绘制次数
+    //计算单像素的绘制次数，为什么是0.04，请看OverDraw.shader文件
     public int DrawPixTimes(float r, float g, float b)
     {
-        switch (PlayerSettings.colorSpace)
-        {
-            case ColorSpace.Gamma:
-                return DrawPixTimesForGamma(g);
-            case ColorSpace.Linear:
-                return DrawPixTimesForLinear(g);
-            default:
-                return DrawPixTimesForGamma(g);
-        }
-    }
-
-    //Linear空间下的计算方式
-    private int DrawPixTimesForLinear(float g)
-    {
-        //在OverDraw.Shader中像素每渲染一次，g值就会叠加0.04
         return Convert.ToInt32(g / 0.04);
-    }
-
-
-    //Gamma空间下的计算方式 by Blaze火神
-    private int DrawPixTimesForGamma(float g)
-    {
-        //对g值进行Gamma校正
-        float GLo = g / 12.92f;
-        float GHi = Mathf.Pow((g + 0.055f) / 1.055f, 2.4f);
-        float res = (g <= 0.04045f) ? GLo : GHi;
-
-        return Convert.ToInt32(res / 0.04);
     }
 
     public bool IsEmptyPix(float r, float g, float b)
