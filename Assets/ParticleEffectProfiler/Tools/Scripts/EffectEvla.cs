@@ -124,7 +124,7 @@ public class EffectEvla
     //计算单像素的绘制次数，为什么是0.04，请看OverDraw.shader文件
     public int DrawPixTimes(float r, float g, float b)
     {
-        return Convert.ToInt32(g / 0.04);
+        return Convert.ToInt32(g / 0.039);
     }
 
     public bool IsEmptyPix(float r, float g, float b)
